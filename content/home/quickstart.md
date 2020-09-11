@@ -66,4 +66,4 @@ By default, this image creates an LDAP server for the company **Example Inc** an
 
 **Customary 5 min installation Demo**
 
-{{< youtube id="3332nHmKTYc" autoplay="true" >}}
+{{< youtube id="MPTfLfxpzUU" autoplay="true" >}}

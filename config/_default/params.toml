@@ -98,7 +98,7 @@ address = {street = "6760 San Fernando", city = "Irving", region = "TX", postcod
 
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
-coordinates = {latitude = "37.4275", longitude = "-122.1697"}
+coordinates = {latitude = "40.7419", longitude = "-73.9893"}
 
 # Directions for visitors to locate you.
 directions = ""
@@ -113,7 +113,7 @@ appointment_url = ""
 # Contact links
 #   Set to `[]` to disable, or comment out unwanted lines with a hash `#`.
 contact_links = [
-  {icon = "twitter", icon_pack = "fab", name = "DM Me", link = "https://twitter.com/mgupta1971"},
+  {icon = "twitter", icon_pack = "fab", name = "DM Me", link = "https://twitter.com/dbsentry"},
   #{icon = "comments", icon_pack = "fas", name = "Discuss on Forum", link = "https://discourse.gohugo.io"},
   ]
 
