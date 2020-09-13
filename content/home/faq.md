@@ -53,29 +53,29 @@ subtitle = ""
 ## What is Keyper?
 Keyper is an SSH Key Manager  
 ## Why Keyper?  
-We as system administrators and developes regularly use OpenSSH's public key authentication (aka password-less login) on linux servers. The mechanism works based on public key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without password. This works great. However, when the numbe of servers start to grow it becomes pain to manage authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys wihin an organization. With keyper one can force key rotation, easily revoke keys, centrally lock accounts.
+We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers. The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
 ## Is Keyper opensource?  
-Not yet, however we are working to get it opensourced under GPLv2 (pending permission from our corporate overlords).  
+Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).  
 ## Where can I get Keyper?  
 Keyper can be downloaded from the docker [registry](https://hub.docker.com/repository/docker/dbsentry/keyper) either using docker or podman.
-## I have a question/suggestion/need to report a bug how can I contact you?  
+## I have a question/suggestion/need to report a bug, how can I contact you?  
 Thanks in advance. We love suggestions/bug reports. Please drop us a line at support@dbsentry.com  
 ## Where is the documentation?  
 All documentation is located [here](/docs/)
-## I have a question, which is not answered here.
+## I have a question which is not answered here.
 Send your question to support@dbsentry.com and we'll try to address it.
 # Technical  
 ## What is under the hood?  
-Keyper is published as docker container, which can also be run using podman. The stack include:
-* Alpine Linux
-* OpenLDAP acting as directory that stores all users, SSH Public Keys, and rules
-* Python Flask REST API
-* VueJS frontend app running on nginx.  
-* All the above services are managed using runit.  
-## What SSH servers are supported by keyper?
-Any linux server running OpenSSH 6.8 or newer should be fine. Basically, a SSH server with AuthorizedKeysCommand is needed.  
-## How to persist openldap data on restart?
-By default, keyper creates openldap database within container under /var/lib/openldap/openldap-data and /etc/openldap/slapd.d. For data to persis after restart, we need to present local docker volumes as parameter. Something like this:
+Keyper is published as a Docker container which can also be run using podman. The stack include:
+* Alpine Linux  
+* OpenLDAP acting as a directory that stores all users, SSH Public Keys, and rules  
+* Python Flask REST API  
+* VueJS frontend app running on Nginx  
+* All the above services are managed using runit  
+## What SSH servers are supported by Keyper?
+Any Linux server running OpenSSH 6.8 or newer should be fine. An SSH server that supports AuthorizedKeysCommand is needed.  
+## How to persist OpenLDAP data on restart?
+By default, Keyper creates OpenLDAP database within container under /var/lib/openldap/openldap-data and /etc/openldap/slapd.d. For data to persist after a restart, we need to present local docker volumes as a parameter. Something like this:
 ```console
 $ docker volume create slapd.d
 $ docker volume create openldap-data
@@ -83,10 +83,10 @@ $ docker run -p 80:80 -p 443:443 -p 389:389 -p 636:636 --hostname <hostname> --m
 ```  
 For more information about docker data volume, please refer to:
 > https://docs.docker.com/engine/tutorials/dockervolumes/
-## What is the purpose of hostname as parameter?
-Keyper uses this hostname to generate self-signed certificate. In addition, this hostname gets embedded in the auth.sh script which you need to download and deploy on each linux server.  
-## I want to connect to keyper on different terminal to see its inside?
-Great. First fine the container id of the running container, and then use "docker exec" to connect. Something like this:
+## What is the purpose of hostname as a parameter?
+Keyper uses this hostname to generate a self-signed certificate. OpenLDAP and Nginx use this certificate for secure communication. Also, this hostname gets embedded in the auth.sh script which you need to download and deploy on each Linux server.  
+## I want to connect to Keyper on a different terminal to see its inside?
+Great. First find the container id of the running container, and then use "docker exec" to connect. Something like this:
 ```console
 $ docker ps
 CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                                                                       NAMES
@@ -116,13 +116,12 @@ Following environment variables can be set while starting the container:
 | FLASK_CONFIG               | Flask Config (dev/prod)  | prod               |
 | HOSTNAME                   | Hostname                 | {docker generated} |
 ## How can I see Debug messages for the REST API?
-Runing container with FLASK_CONFIG=dev would force Flask REST API to run in debug mode.
-## Where are auditlog for openldap located
-/var/log/openldap/auditlog.ldif
-It may be a better idea to create docker volume for /var/log and mount it in container to persist logs
+Running a container with FLASK_CONFIG=dev would force Flask REST API to run in debug mode.
+## Where is the auditlog for OpenLDAP located
+/var/log/openldap/auditlog.ldif. It may be a better idea to create docker volume for /var/log and mount it in the container to persist logs
 ## How can I backup Keyper?
-As far as you have backup for the openldap database you are good to go. For the rest, as far as you specify the same cli params things should work fine.
-## How do I use real SSL certificate with Keyper?
-Certificate is used by slapd and nginx. You can set custom certificate at run time, by mounting a directory containing those files to /container/service/nginx/assets/certs and adjust their name per the environment variables defined above.
+As far as you have a backup for the OpenLDAP database you are good to go. For the rest, as far as you specify the same cli params things should work fine.  
+## How do I use a real SSL certificate with Keyper?
+The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to /container/service/nginx/assets/certs and adjust their name per the environment variables defined above.
 
 

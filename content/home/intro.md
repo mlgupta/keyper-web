@@ -46,15 +46,15 @@ subtitle = ""
  css_class = ""
 +++
 
-Keyper is an SSH Public Key Manager. It standardizes and centralizes the storage of SSH public keys for all Linux users in your organization. Saving significant time and effort it takes to manage SSH public keys on each Linux Server. Keyper is a container occupying less than 100MB. It is launched either using Docker or Podman. You can be up and running within minutes instead of days.
+Keyper is an SSH Public Key Manager. It standardizes and centralizes the storage of SSH public keys for all Linux users in your organization saving significant time and effort it takes to manage SSH public keys on each Linux Server. Keyper is a lightweight container taking less than 100MB. It is launched either using Docker or Podman. You can be up and running within minutes instead of days.
 
 Features include:
 - Public key storage
 - Public Key Expiration
 - Forced Key rotation
-- Streamlined provision or deprovision of users
+- Streamlined provision or de-provisioning of users
 - Segmentation of Servers using groups
-- Define policies to restrict user's access to server(s)
+- Policy definition to restrict user's access to server(s)
 - Centralized user account lockout
 - Docker container
 

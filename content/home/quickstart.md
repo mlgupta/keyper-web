@@ -48,20 +48,20 @@ subtitle = ""
 
 Run Keyper docker image using docker cli:
 ```console
-$ docker run  -p 8080:80 -p 8443:443 -p 2389:389 -p 2636:636 --hostname <hostname> --env FLASK_CONFIG=prod -it dbsentry/keyper
+$ docker run  -p 8080:80 -p 8443:443 --hostname <hostname> --env FLASK_CONFIG=prod -it dbsentry/keyper
 ````
 Run Keyper docker image using podman cli:
 ```console
-$ podman run  -p 8080:80 -p 8443:443 -p 2389:389 -p 2636:636 --hostname <hostname> --env FLASK_CONFIG=prod -it docker.io/dbsentry/keyper
+$ podman run  -p 8080:80 -p 8443:443 --hostname <hostname> --env FLASK_CONFIG=prod -it docker.io/dbsentry/keyper
 ````
-Either command starts a new container with keyper processes (openldap, gunicorn, nginx) running inside.
+Either command starts a new container with Keyper processes (OpenLDAP, Gunicorn, Nginx) running inside.
 
 {{% alert note %}}
-The above commands are for demo only and start a new container with LDAP server storing data within the container. That means on re-start, data would not persist. If you want data to persist, start the container with appropriate command line parameters. Refer to the documentation.
+The above commands are for demo only and start a new container with OpenLDAP server storing data within the container. That means on re-start, data would not persist. If you want data persistence, start the container with appropriate command line parameters. Refer to the documentation.
 {{% /alert %}}
 
 {{% alert note %}}
-By default, this image creates an LDAP server for the company **Example Inc** and the domain **keyper.example.org**. By default, all passwords are set to *superdupersecret*. All the default settings can be changed by passing parameters to docker/podman command line or using a parameter config file.
+By default, this image creates an LDAP server for the company **Example Inc** and the domain **keyper.example.org**. By default, all passwords are set to *superdupersecret*. All the default settings can be changed by passing parameters to the docker/podman command line or using a parameter config file.
 {{% /alert %}}
 
 **Customary 5 min installation Demo**

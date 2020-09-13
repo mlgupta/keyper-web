@@ -37,7 +37,7 @@ title = "Keyper"
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "https://hub.docker.com/repository/docker/dbsentry/keyper"
+  url = "https://hub.docker.com/r/dbsentry/keyper"
   label = "Get Started"
   icon_pack = "fas"
   icon = "download"
@@ -48,7 +48,7 @@ title = "Keyper"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
-  label = '<a class="js-github-release" href="https://hub.docker.com/repository/docker/dbsentry/keyper" data-repo="dbsentry/keyper-docker">Latest release<!-- V --></a>'
+  label = '<a class="js-github-release" href="https://hub.docker.com/r/dbsentry/keyper" data-repo="dbsentry/keyper-docker">Latest release<!-- V --></a>'
 +++
 
 **SSH Key Manager**
