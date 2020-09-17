@@ -13,11 +13,6 @@
   url = "#pricing"
   weight = 15
 
-#[[main]]
-#  name = "FAQ"
-#  url = "#faq"
-#  weight = 20
-
 [[main]]
   name = "Support"
   identifier = "support"
@@ -34,6 +29,16 @@
   parent = "support"
   url = "/docs"
   weight = 20
+
+[[main]]
+  name = "Subscribe"
+  url = "#subscribe"
+  weight = 50
+
+[[main]]
+  name = "Demo"
+  url = "#do-you-have-a-demosandbox-for-keyper"
+  weight = 55
 
 [[main]]
   name = "Contact"

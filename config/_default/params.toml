@@ -16,7 +16,7 @@
 theme = "minimal"
 
 # Enable users to switch between day and night mode?
-day_night = true
+day_night = false
 
 # Override the theme's font set (optional).
 #   Latest font sets (may require updating): https://sourcethemes.com/academic/themes/
@@ -125,7 +125,7 @@ contact_links = [
 sharing_image = ""
 
 # Twitter username (without @). Used when a visitor shares your site on Twitter.
-twitter = ""
+twitter = "@dbsentry"
 
 ############################
 ## Regional Settings
@@ -274,7 +274,7 @@ i_am_a_sponsor = "false"
 ## Marketing
 ############################
 [marketing]
-  google_analytics = ""
+  google_analytics = "UA-171403829-2"
   google_tag_manager = ""
 
 ############################
@@ -282,7 +282,7 @@ i_am_a_sponsor = "false"
 ############################
 [cms]
   # See https://sourcethemes.com/academic/docs/install/#install-with-web-browser
-  netlify_cms = true
+  netlify_cms = false
 
 ############################
 ## Icon Pack Extensions
