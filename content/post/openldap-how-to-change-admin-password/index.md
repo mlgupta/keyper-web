@@ -5,7 +5,7 @@ title: "OpenLDAP: How to Change Admin Password"
 subtitle: ""
 summary: "Step-by-step procedure to change admin password on OpenLDAP."
 authors: [manish-gupta]
-tags: []
+tags: [openldap, ldap, password]
 categories: [OpenLDAP]
 date: 2020-09-12T15:12:16-05:00
 lastmod: 2020-09-12T15:12:16-05:00
