@@ -48,11 +48,19 @@ subtitle = ""
 
 Run Keyper docker image using docker cli:
 ```console
-$ docker run  -p 8080:80 -p 8443:443 --hostname <hostname> --env FLASK_CONFIG=prod -it dbsentry/keyper
+$ docker run                    \
+        -p 8080:80              \
+        -p 8443:443             \
+        --hostname <hostname>   \
+        -it dbsentry/keyper
 ````
 Run Keyper docker image using podman cli:
 ```console
-$ podman run  -p 8080:80 -p 8443:443 --hostname <hostname> --env FLASK_CONFIG=prod -it docker.io/dbsentry/keyper
+$ podman run  
+         -p 8080:80                 \
+         -p 8443:443                \
+         --hostname <hostname>      \
+         -it quay.io/dbsentry/keyper
 ````
 Either command starts a new container with Keyper processes (OpenLDAP, Gunicorn, Nginx) running inside.
 

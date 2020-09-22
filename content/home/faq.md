@@ -76,6 +76,12 @@ Keyper is published as a Docker container which can also be run using podman. Th
 * All the above services are managed using runit  
 ## What SSH servers are supported by Keyper?
 Any Linux server running OpenSSH 6.8 or newer should be fine. An SSH server that supports AuthorizedKeysCommand is needed.  
+## What is Podman?
+Per podman projetct's website: "Podman is a daemonless, open source, Linux native tool designed to make it easy to find, run, build, share and deploy applications using Open Containers Initiative (OCI) Containers and Container Images. Podman provides a command line interface (CLI) familiar to anyone who has used the Docker Container Engine. Most users can simply alias Docker to Podman (alias docker=podman) without any problems."  
+Best thing we liked about podman is that one need not be root to run a container. It comes bundled with RHEL (or any RHEL based distro) by default. If you do not have it install it using yum:
+```console
+# yum install podman
+```
 ## How to persist OpenLDAP data on restart?
 By default, Keyper creates OpenLDAP database within container under /var/lib/openldap/openldap-data and /etc/openldap/slapd.d. For data to persist after a restart, we need to present local docker volumes as a parameter. Something like this:
 ```console
