@@ -63,7 +63,37 @@ Thanks in advance. We love suggestions/bug reports. Please drop us a line at sup
 ## Where is the documentation?  
 All documentation is located [here](/docs/)
 ## Do you have a Demo/Sandbox for Keyper?
-Yes we do. We have a demo system running on https://sprout.dbsentry.com. And also 4 containers running SSH that can be used for testing. Drop us a line at support@dbsentry.com and we'll send you credentials.
+Yes we do. We have a demo system running on https://sprout.dbsentry.com. And also 4 containers running SSH that can be used for testing. Here are credentials to access the web-console:
+
+| User ID | Password    |
+| ----------| ----------- | 
+| alice     | keyper      |
+| bob       | keyper      |
+| carol     | keyper      |
+| erin      | keyper      |
+| frank     | keyper      |
+| grace     | keyper      |
+
+In addition, you can test following containers running SSH using above user ids after you add your SSH public key to the web-console:
+
+| Server                 | SSH Port    |
+| -----------------------| ----------- | 
+| mavrix2.dbsentry.com   | 2022        |
+| mavrix3.dbsentry.com   | 3022        |
+| mavrix4.dbsentry.com   | 4022        |
+| mavrix5.dbsentry.com   | 5022        |
+
+So, if you want to access server ```mavrix4.dbsentry.com``` as user ```frank```, you need to add your SSH public key (typically ```~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub```) to user frank and then connect using ssh:
+```console
+$ ssh -l frank -p 4022 mavrix4.dbsentry.com
+```
+Any issues drop us a line at support@dbsentry.com.
+{{% alert note %}}
+This demo system is limited and only allows you to upload/delete SSH public keys (Keyper User Role). You do not have admin access to add/modify users/hosts/groups (Keyper Admin Role). To see admin features in action, we suggest that you download and run the docker image either using docker or podman on your Linux system.
+{{% /alert %}}
+{{% alert note %}}
+You are sharing these demo systems with others. Please be respectful of others. We delete all uploaded keys every night.
+{{% /alert %}}
 ## I have a question which is not answered here.
 Send your question to support@dbsentry.com and we'll try to address it.
 # Technical  
@@ -83,7 +113,7 @@ Best thing we liked about podman is that one need not be root to run a container
 # yum install podman
 ```
 ## How to persist OpenLDAP data on restart?
-By default, Keyper creates OpenLDAP database within container under /var/lib/openldap/openldap-data and /etc/openldap/slapd.d. For data to persist after a restart, we need to present local docker volumes as a parameter. Something like this:
+By default, Keyper creates OpenLDAP database within container under ```/var/lib/openldap/openldap-data``` and ```/etc/openldap/slapd.d```. For data to persist after a restart, we need to present local docker volumes as a parameter. Something like this:
 ```console
 $ docker volume create slapd.d
 $ docker volume create openldap-data
@@ -94,7 +124,7 @@ For more information about docker data volume, please refer to:
 ## What is the purpose of hostname as a parameter?
 Keyper uses this hostname to generate a self-signed certificate. OpenLDAP and Nginx use this certificate for secure communication. Also, this hostname gets embedded in the auth.sh script which you need to download and deploy on each Linux server.  
 ## I want to connect to Keyper on a different terminal to see its inside?
-Great. First find the container id of the running container, and then use "docker exec" to connect. Something like this:
+Great. First find the container id of the running container, and then use ```docker exec``` to connect. Something like this:
 ```console
 $ docker ps
 CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                                                                       NAMES
@@ -124,12 +154,12 @@ Following environment variables can be set while starting the container:
 | FLASK_CONFIG               | Flask Config (dev/prod)  | prod               |
 | HOSTNAME                   | Hostname                 | {docker generated} |
 ## How can I see Debug messages for the REST API?
-Running a container with FLASK_CONFIG=dev would force Flask REST API to run in debug mode.
+Running a container with ```FLASK_CONFIG=dev``` would force Flask REST API to run in debug mode.
 ## Where is the auditlog for OpenLDAP located
-/var/log/openldap/auditlog.ldif. It may be a better idea to create docker volume for /var/log and mount it in the container to persist logs
+```/var/log/openldap/auditlog.ldif```. It may be a better idea to create docker volume for ```/var/log``` and mount it in the container to persist logs
 ## How can I backup Keyper?
 As far as you have a backup for the OpenLDAP database you are good to go. For the rest, as far as you specify the same cli params things should work fine.  
 ## How do I use a real SSL certificate with Keyper?
-The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to /container/service/nginx/assets/certs and adjust their name per the environment variables defined above.
+The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to ```/container/service/nginx/assets/certs``` and adjust their name per the environment variables defined above.
 
 
