@@ -55,7 +55,18 @@ Keyper is an SSH Key Based Authentication Manager
 ## Why Keyper?  
 We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers. The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
 ## Is Keyper opensource?  
-Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).  
+~~Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).~~  
+Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker) and [keyper](https://github.com/dbsentry/keyper).  
+Following components of keyper are opensourced:
+* keyper REST API
+* keyper docker image builder
+* All artifacts related to openldap schema  
+
+The above stack can be administored using ```curl``` CLI.  
+
+The web based administration console for Keyper has not been opensourced. 
+
+The above arrangement should satisfy needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with docker image upto 20 servers. After which they have option to purchase license.  
 ## Where can I get Keyper?  
 Keyper can be downloaded from the docker [registry](https://hub.docker.com/repository/docker/dbsentry/keyper) either using docker or podman.
 ## I have a question/suggestion/need to report a bug, how can I contact you?  

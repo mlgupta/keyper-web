@@ -43,8 +43,8 @@ title = "Keyper"
   icon = "download"
   
 [cta_alt]
-  url = "https://keyper.dbsentry.com/docs/"
-  label = "View Documentation"
+  url = "https://github.com/dbsentry/keyper-docker"
+  label = "View Source"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
