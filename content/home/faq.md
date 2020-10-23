@@ -51,9 +51,13 @@ subtitle = ""
 
 # General  
 ## What is Keyper?
-Keyper is an SSH Key Based Authentication Manager  
+Keyper is an SSH Key and Certificate Based Authentication Manager  
 ## Why Keyper?  
-We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers. The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
+We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers or Certificate based authentication (more secure). The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
+## Why Certificate based authentication
+SSH Key based authentication works great. Certificate based authentication eliminates few limitations associated with Key based authentication. When using certificates, both clients and servers use certificates signed by trusted third party (in this case Keyper), which long time known issue such as Trust-on-First-Use (TOFU).Instead of X.509 format, SSH uses its own simpler certificate format. 
+## Why should one use Keyper for certifcate based authenticaion
+There is one little inconvenience with certificates and that is users cannot sign their keys themselves as they do not have access to CA's private key. A process must be put in place to sign the keys. Once adminstrator setup a user in the Keyper system, s/he can upload keys to be signed by the CA. Keyper system generates the certificate on the fly based on restrictions (like duration of certificate, and what servers/users any user has access to).
 ## Is Keyper opensource?  
 ~~Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).~~  
 Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker) and [keyper](https://github.com/dbsentry/keyper).  
@@ -168,13 +172,16 @@ Following environment variables can be set while starting the container:
 | LDAP_GID                   | linux ldap user gid      | 10100              |
 | NGINX_UID                  | linux nginx user uid     | 10080              |
 | NGINX_UID                  | linux nginx user uid     | 10080              |
+| SSH_CA_HOST_KEY            | CA Host Key              | ca_host_key        |
+| SSH_CA_USER_KEY            | CA USER Key              | ca_user_key        |
+
 ## How can I see Debug messages for the REST API?
 Running a container with ```FLASK_CONFIG=dev``` would force Flask REST API to run in debug mode.
 ## Where is the auditlog for OpenLDAP located
 ```/var/log/openldap/auditlog.ldif```. It may be a better idea to create docker volume for ```/var/log``` and mount it in the container to persist logs
 ## How can I backup Keyper?
 As far as you have a backup for the OpenLDAP database you are good to go. For the rest, as far as you specify the same cli params things should work fine.  
-## How do I use a real SSL certificate with Keyper?
+## How do I use a real X.509 SSL certificate with Keyper?
 The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to ```/container/service/nginx/assets/certs``` and adjust their name per the environment variables defined above.
 
 

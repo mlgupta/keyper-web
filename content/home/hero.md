@@ -51,5 +51,5 @@ title = "Keyper"
   label = '<a class="js-github-release" href="https://hub.docker.com/r/dbsentry/keyper" data-repo="dbsentry/keyper-docker">Latest release<!-- V --></a>'
 +++
 
-**SSH Key Manager**
+**SSH Key and Certificate Manager**
 
