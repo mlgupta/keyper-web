@@ -168,8 +168,6 @@ Following environment variables can be set while starting the container:
 | LDAP_TLS_CIPHER_SUITE      | Default Cipher Suite     | TLSv1.2:HIGH:!aNULL:!eNULL |
 | FLASK_CONFIG               | Flask Config (dev/prod)  | prod               |
 | HOSTNAME                   | Hostname                 | {docker generated} |
-| LDAP_UID                   | linux ldap user uid      | 10100              |
-| LDAP_GID                   | linux ldap user gid      | 10100              |
 | NGINX_UID                  | linux nginx user uid     | 10080              |
 | NGINX_UID                  | linux nginx user uid     | 10080              |
 | SSH_CA_HOST_KEY            | CA Host Key              | ca_host_key        |
