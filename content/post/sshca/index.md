@@ -1,7 +1,7 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "SSH Authenitcation and Certificate Authority"
+title: "SSH Authentication and Certificate Authority"
 subtitle: ""
 summary: ""
 authors: [manish-gupta]
