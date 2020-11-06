@@ -347,7 +347,7 @@ But ```00 00 00 00  00 00 00 00``` for ```reserved``` and ```comment``` confused
 
 I added a key to the KRL hoping that may clarify things further. And, clarify it did!
 
-Noticed ```02``` right after ```reserved``` and ```comment```:
+Notice ```02``` right after ```reserved``` and ```comment```:
 
 ```console
 [manish@getafix sshca]$ ssh-keygen -k -u -f ca_krl id_rsa.pub
@@ -386,7 +386,7 @@ Revoking from id_rsa.pub
 000001cc
 ```
 
-That meant it is the beginning of the ```KRL_SECTION_EXPLICIT_KEY``` section. The next 8 bytes clarified things further:
+```02``` means it is the beginning of the ```KRL_SECTION_EXPLICIT_KEY``` section. The next 8 bytes clarifies things further:
 
 ```console
 00000000  53 53 48 4b 52 4c 0a 00  00 00 00 01 00 00 00 00  |SSHKRL..........|
@@ -421,7 +421,7 @@ That meant it is the beginning of the ```KRL_SECTION_EXPLICIT_KEY``` section. Th
 000001cc
 ```
 
-Noticed that ```00 00 01 97``` (407) is 4 less then ```00 00 01 9b``` (411). It also seemed that the Key was stored base64 decoded. To verify that I base64 decoded the Key and compared:
+Notice that ```00 00 01 97``` (407) is 4 less then ```00 00 01 9b``` (411). It also seem that the Key is stored base64 decoded. To verify that lets us base64 decode the Key and compare:
 
 ```console
 [manish@getafix sshca]$ echo "AAAAB3NzaC1yc2EAAAADAQABAAABgQDAu3yzbzeIxtzl3N8bgVmhm3mdTmO30J1/8hnkI32cNpoIATmDv5OmtejLeCGJSembUhWkA1pKzSaz7X1Gfo0edDVkQyNwC3yzp/ZsuAvKJ1/9Vt59HlOQSbb81gy1zHEti7cnTUng9OYf6moC4DIj0nVWEgQrIjonEvfKFKWeJZOispNh9dxwbdfu8wygy3D4q9lxVn6NEHwr/0AQnz4PYEGSkILHW8hcrd5WJRHJfqKqVHsf7/JCD4ARy4O07Awzn4+9uxUxjGpZFUqdbl1cAhq8Dfuxvw4J6WUoV624h6Fkf2It4eTc6MiX+NGbmyWSA8t7hIUnqofYIZ2YWCPmrUUHO4s6Is/529Z91VfC9/i/YlYnzottG6VGUFPhyG78JAbx2+MMKkXOLkuHs+fEdwRv8pGJQkU038ywr6i8FsV8wkIbbNNSOkArAZ4kMV4oTYJg/4HXN/4JCGpG0Vsd6Mk5WNUBnkuiDNtv+cXTVi9JesD8bmzYzpYov+VtXUM=" | base64 -d | hexdump -C
@@ -454,7 +454,7 @@ Noticed that ```00 00 01 97``` (407) is 4 less then ```00 00 01 9b``` (411). It 
 00000197
 ```
 
-Bingo! That was a match. Moreover, the decoded Key is of length ```00000197``` (407). And, it dawned on me that ```00 00 01 9b``` (411) means the length of the section. And, ```00 00 01 97``` (407) the length of the Key. So, what happen if we add another Key?
+Bingo! That is a match. Moreover, the decoded Key is of length ```00000197``` (407). So, ```00 00 01 9b``` (411) means the length of the section. And, ```00 00 01 97``` (407) the length of the Key. So, what happen if we add another Key?
 
 ```console
 [manish@getafix sshca]$ ssh-keygen -k -u -f ca_krl id_ed25519.pub
@@ -508,7 +508,7 @@ The section length increased from ```0000019b``` (411) to ```000001d2``` (466) a
 00000033
 ```
 
-So, it seemed that the 4 bytes right before any string designated its length. To confirm this hypothesis,  I added a Certificate to an empty KRL.
+So, it seems that the 4 bytes right before any string is its length. To confirm this hypothesis,  Let us add a Certificate to an empty KRL.
 
 ```console
 [manish@getafix sshca]$ ssh-keygen -k -f ca_krl
@@ -550,7 +550,7 @@ Revoking from id_rsa-cert.pub
 000001dd
 ```
 
-Noticed ```01``` right after ```comment```,  which translates to ```KRL_SECTION_CERTIFICATES```. Right after that is ```000001ac``` (428) corresponding to the length of the section. This is then followed by ```00000197``` (407). Now, that seemed familiar, as this was the length when we added an RSA Key to the KRL. When looked carefully, I realized that it is the CA Public Key used to sign the certificate. A reserved string (```00000000```) follows the CA Key. The next is a byte, showing the certificate section type. In this case, it is ```20``` means ```KRL_SECTION_CERT_SERIAL_LIST```. Per the documentation, the list of ```uint64``` (8 bytes each) should follow. The 4 bytes right after indicates the length of the list (i.e. ```00000008```). And, 8 bytes after that indicate the serial number of the certificate (i.e 1234)
+Notice ```01``` right after ```comment```,  which translates to ```KRL_SECTION_CERTIFICATES```. Right after that is ```000001ac``` (428) corresponding to the length of the section. This is then followed by ```00000197``` (407). Now, that seems familiar, as this was the length when we added an RSA Key to the KRL. It is actually the CA Public Key used to sign the certificate. A reserved string (```00000000```) follows the CA Key. The next is a byte, showing the certificate section type. In this case, it is ```20``` , which means ```KRL_SECTION_CERT_SERIAL_LIST```. Per the documentation, the list of ```uint64``` (8 bytes each) should follow. The 4 bytes right after indicates the length of the list (i.e. ```00000008```). And, 8 bytes after that indicate the serial number of the certificate (i.e 1234)
 
 ```console
 [manish@getafix sshca]$ ssh-keygen -L -f id_rsa-cert.pub 
@@ -572,7 +572,7 @@ id_rsa-cert.pub:
                 permit-user-rc
 ```
 
-Armed with the above knowledge, I set out to write a python code to parse the KRL file. Please note that in Keyper we use fingerprint to revoke a Key and Serial No. to revoke a Certificate. So, the code only parses the relevant sections and ignores the rest of the file. If you have a need to parse other sections, you can use the above knowledge and extend the code further.
+Armed with the above knowledge, I set out to write a python code to parse the KRL file. Please note that in Keyper we use fingerprint to revoke a Key and Serial No. to revoke a Certificate. So, the code only parses the relevant sections and ignores the rest of the file. Also, it is not fully optimized yet. If you have a need to parse other sections, you can use the above knowledge and extend the code further.
 
 When ```SSHKRL``` is initialized, it parses a KRL and creates a Python dictionary containing the list of revoked Key Fingerprints and revoked Certificate serial numbers. It has two methods ```is_key_revoked(key_hash)``` and ```is_cert_revoked(cert_serial)```. ```key_hash``` and ```cert_serial``` are Key fingerprint and certificate serial number respectively. Both methods return either ```True``` or ```False``` based on whether or not a given Key/Certificate has been revoked or not.
 
