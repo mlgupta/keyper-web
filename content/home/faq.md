@@ -181,5 +181,9 @@ Running a container with ```FLASK_CONFIG=dev``` would force Flask REST API to ru
 As far as you have a backup for the OpenLDAP database you are good to go. For the rest, as far as you specify the same cli params things should work fine.  
 ## How do I use a real X.509 SSL certificate with Keyper?
 The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to ```/container/service/nginx/assets/certs``` and adjust their name per the environment variables defined above.
+## What is SSH Key Revocation List (KRL)?
+A Key Revocation List (KRL) is a list identifying the revokes Keys and Certificates. In Keyper, a Key or Certificate when deleted gets added to the KRL. Both Key based and Certificate based SSH authentication on Keyper use KRL verification as the first step.
+## How can I access the KRL File?
+KRL file is located on the runing container under ```/etc/sshca/ca_krl```. It can also be downloaded using API call ```https://servername/api/krlca```
 
 
