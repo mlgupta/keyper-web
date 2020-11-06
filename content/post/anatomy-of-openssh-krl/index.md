@@ -574,9 +574,9 @@ id_rsa-cert.pub:
 
 Armed with the above knowledge, I set out to write a python code to parse the KRL file. Please note that in Keyper we use fingerprint to revoke a Key and Serial No. to revoke a Certificate. So, the code only parses the relevant sections and ignores the rest of the file. If you have a need to parse other sections, you can use the above knowledge and extend the code further.
 
-When ```SSHKRL``` is initalized it parses a KRL and creates a Python dictionary containing list of revoked Key Fingerprints and revoked Certificate serial numbers. It has two methods ```is_key_revoked(key_hash)``` and ```is_cert_revoked(cert_serial)```. ```key_hash``` and ```cert_serial``` are Key fingerprint and certificate serial number respectively. Both methods return either ```True``` or ```False``` based on whether or not a given Key/Certificate has been revoked or not.
+When ```SSHKRL``` is initialized, it parses a KRL and creates a Python dictionary containing the list of revoked Key Fingerprints and revoked Certificate serial numbers. It has two methods ```is_key_revoked(key_hash)``` and ```is_cert_revoked(cert_serial)```. ```key_hash``` and ```cert_serial``` are Key fingerprint and certificate serial number respectively. Both methods return either ```True``` or ```False``` based on whether or not a given Key/Certificate has been revoked or not.
 
-With this class in place, now SSH servers need not send full Key or Certificate to perform KRL lookup.
+With this class in place, now SSH servers need not send a full Key or Certificate to perform KRL lookup.
 
 ## KRL Parser
 
