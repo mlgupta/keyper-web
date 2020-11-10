@@ -31,6 +31,12 @@
   weight = 20
 
 [[main]]
+  name = "Discord"
+  parent = "support"
+  url = "https://discord.gg/JKpgXrYvGX"
+  weight = 30
+
+[[main]]
   name = "Subscribe"
   url = "#subscribe"
   weight = 50

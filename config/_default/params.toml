@@ -114,6 +114,7 @@ appointment_url = ""
 #   Set to `[]` to disable, or comment out unwanted lines with a hash `#`.
 contact_links = [
   {icon = "twitter", icon_pack = "fab", name = "DM Me", link = "https://twitter.com/dbsentry"},
+  {icon = "discord", icon_pack = "fab", name = "Discuss on Discord", link = "https://discord.gg/JKpgXrYvGX"},
   #{icon = "comments", icon_pack = "fas", name = "Discuss on Forum", link = "https://discourse.gohugo.io"},
   ]
 

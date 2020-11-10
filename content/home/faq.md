@@ -110,7 +110,7 @@ This demo system is limited and only allows you to upload/delete SSH public keys
 You are sharing these demo systems with others. Please be respectful of others. We delete all uploaded keys every night.
 {{% /alert %}}
 ## I have a question which is not answered here.
-Send your question to support@dbsentry.com and we'll try to address it.
+Send your question to support@dbsentry.com and we'll try to address it. You can also hang out with us on [Discord](https://discord.gg/JKpgXrYvGX)
 # Technical  
 ## What is under the hood?  
 Keyper is published as a Docker container which can also be run using podman. The stack include:
