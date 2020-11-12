@@ -38,13 +38,13 @@ title = "Keyper"
 #   Remove a link/note by deleting a cta/note block.
 [cta]
   url = "https://hub.docker.com/r/dbsentry/keyper"
-  label = "Get Started"
+  label = "Download"
   icon_pack = "fas"
   icon = "download"
   
 [cta_alt]
   url = "https://github.com/dbsentry/keyper-docker"
-  label = "View Source"
+  label = "Source"
 
 # Note. An optional note to show underneath the links.
 [cta_note]

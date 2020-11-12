@@ -7,7 +7,7 @@ weight = 20  # Order that this section will appear.
 
 # Note: a full width section format can be enabled by commenting out the `title` and `subtitle` with a `#`.
 title = "KEYPER"
-subtitle = ""
+subtitle = "![Docker Pulls](https://img.shields.io/docker/pulls/dbsentry/keyper?label=Downloads)"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
