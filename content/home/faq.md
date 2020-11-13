@@ -51,34 +51,34 @@ subtitle = ""
 
 # General  
 ## What is Keyper?
-Keyper is an SSH Key and Certificate Based Authentication Manager  
+Keyper is an SSH Key and Certificate-Based Authentication Manager  
 ## Why Keyper?  
-We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers or Certificate based authentication (more secure). The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
-## Why Certificate based authentication
-SSH Key based authentication works great. Certificate based authentication eliminates few limitations associated with Key based authentication. When using certificates, both clients and servers use certificates signed by trusted third party (in this case Keyper). This takes care of long time known issue such as Trust-on-First-Use (TOFU).Instead of X.509 format, SSH uses its own simpler certificate format. 
-## Why should one use Keyper for certifcate based authenticaion
-There is one little inconvenience with certificates and that is users cannot sign their keys themselves as they do not have access to CA's private key. A process must be put in place to sign the keys. Once adminstrator setup a user in the Keyper system, s/he can upload keys to be signed by the CA. Keyper system generates the certificate on the fly based on restrictions (like duration of certificate, and what servers/users any user has access to).
+We, as system administrators and developers, regularly use OpenSSH's public key authentication (aka password-less login) on Linux servers or Certificate-based authentication (more secure). The mechanism works based on public-key cryptography. One adds his/her RSA/DSA key to the authorized_keys file on the server. The user with the corresponding private key can login without a password. It works great until the number of servers starts to grow. It becomes a pain to manage the authorized_keys file on all the servers. Account revocation becomes a pain as well. Keyper aims to centralize all such SSH Public Keys within an organization. With Keyper, one can force key rotation, easily revoke keys, and centrally lock accounts.
+## Why Certificate-based authentication
+SSH Key-based authentication does a great job. Certificate-based authentication eliminates a few limitations associated with Key-based authentication. When using certificates, both clients and servers use certificates signed by a trusted third party (e.g. Keyper). Certificates take care of long time known issue such as Trust-on-First-Use (TOFU). Instead of X.509 format, SSH uses its own, simpler, certificate format. 
+## Why should one use Keyper for certificate-based authentication
+There is one little inconvenience with certificates, and that is a user cannot sign their keys themselves as they do not have access to CA's private key. A process must be put in place to sign the keys. Once the administrator sets up a user in the Keyper system, s/he can upload keys to be signed by the CA. Keyper system generates the certificate on the fly based on pre-defined rules (like duration of the certificate, and what servers/principals any given user has access to).
 ## Is Keyper opensource?  
 ~~Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).~~  
 Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker) and [keyper](https://github.com/dbsentry/keyper).  
-Following components of keyper are opensourced:
+The following components of keyper are open-source:
 * keyper REST API
 * keyper docker image builder
-* All artifacts related to openldap schema  
+* All artifacts related to OpenLDAP schema  
 
-The above stack can be administored using ```curl``` CLI.  
+The above stack can be administered using ```curl``` CLI.  
 
-The web based administration console for Keyper has not been opensourced. 
+The web-based administration console for Keyper has not been open-sourced. 
 
-The above arrangement should satisfy needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with docker image upto 20 servers. After which they have option to purchase license.  
+The above arrangement should satisfy the needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with a docker image up to 20 servers. After which they have the option to purchase a license.  
 ## Where can I get Keyper?  
 Keyper can be downloaded from the docker [registry](https://hub.docker.com/repository/docker/dbsentry/keyper) either using docker or podman.
-## I have a question/suggestion/need to report a bug, how can I contact you?  
+## I have a question/suggestion/need to report a bug. How can I contact you?  
 Thanks in advance. We love suggestions/bug reports. Please drop us a line at support@dbsentry.com  
 ## Where is the documentation?  
 All documentation is located [here](/docs/)
 ## Do you have a Demo/Sandbox for Keyper?
-Yes we do. We have a demo system running on https://sprout.dbsentry.com. And also 4 containers running SSH that can be used for testing. Here are credentials to access the web-console:
+Yes, we do. We have a demo system running on https://sprout.dbsentry.com plus four containers running SSH for testing. Here are credentials to access the web console:
 
 | User ID | Password    |
 | ----------| ----------- | 
@@ -89,7 +89,7 @@ Yes we do. We have a demo system running on https://sprout.dbsentry.com. And als
 | frank     | keyper      |
 | grace     | keyper      |
 
-In addition, you can test following containers running SSH using above user ids after you add your SSH public key to the web-console:
+Besides, you can test the following containers running SSH using the above user ids after you add your SSH public key to the web-console:
 
 | Server                 | SSH Port    |
 | -----------------------| ----------- | 
@@ -102,28 +102,28 @@ So, if you want to access server ```mavrix4.dbsentry.com``` as user ```frank```,
 ```console
 $ ssh -l frank -p 4022 mavrix4.dbsentry.com
 ```
-Any issues drop us a line at support@dbsentry.com.
+Any issues, drop us a line at support@dbsentry.com.
 {{% alert note %}}
 This demo system is limited and only allows you to upload/delete SSH public keys (Keyper User Role). You do not have admin access to add/modify users/hosts/groups (Keyper Admin Role). To see admin features in action, we suggest that you download and run the docker image either using docker or podman on your Linux system.
 {{% /alert %}}
 {{% alert note %}}
 You are sharing these demo systems with others. Please be respectful of others. We delete all uploaded keys every night.
 {{% /alert %}}
-## I have a question which is not answered here.
-Send your question to support@dbsentry.com and we'll try to address it. You can also hang out with us on [Discord](https://discord.gg/JKpgXrYvGX)
+## I have a question that is not answered.
+Send your question to support@dbsentry.com, and we'll try to address it. You can also hang out with us on [Discord](https://discord.gg/JKpgXrYvGX)
 # Technical  
 ## What is under the hood?  
-Keyper is published as a Docker container which can also be run using podman. The stack include:
+Keyper is a Docker container, which can also be run using podman. The stack includes:
 * Alpine Linux  
 * OpenLDAP acting as a directory that stores all users, SSH Public Keys, and rules  
 * Python Flask REST API  
 * VueJS frontend app running on Nginx  
 * All the above services are managed using runit  
-## What SSH servers are supported by Keyper?
+## What version of SSH Keyper supports?
 Any Linux server running OpenSSH 6.8 or newer should be fine. An SSH server that supports AuthorizedKeysCommand is needed.  
 ## What is Podman?
-Per podman projetct's website: "Podman is a daemonless, open source, Linux native tool designed to make it easy to find, run, build, share and deploy applications using Open Containers Initiative (OCI) Containers and Container Images. Podman provides a command line interface (CLI) familiar to anyone who has used the Docker Container Engine. Most users can simply alias Docker to Podman (alias docker=podman) without any problems."  
-Best thing we liked about podman is that one need not be root to run a container. It comes bundled with RHEL (or any RHEL based distro) by default. If you do not have it install it using yum:
+Per podman project's website: "Podman is a daemonless, open-source, Linux native tool designed to make it easy to find, run, build, share and deploy applications using Open Containers Initiative (OCI) Containers and Container Images. Podman provides a command-line interface (CLI) familiar to anyone who has used the Docker Container Engine. Most users can simply alias Docker to Podman (alias docker=podman) without any problems."  
+The best thing we liked about podman is that one need not be root to run a container. It comes bundled with RHEL (or any RHEL based distro) by default. If you do not have it install it using yum:
 ```console
 # yum install podman
 ```
@@ -136,8 +136,8 @@ $ docker run -p 80:80 -p 443:443 -p 389:389 -p 636:636 --hostname <hostname> --m
 ```  
 For more information about docker data volume, please refer to:
 > https://docs.docker.com/engine/tutorials/dockervolumes/
-## What is the purpose of hostname as a parameter?
-Keyper uses this hostname to generate a self-signed certificate. OpenLDAP and Nginx use this certificate for secure communication. Also, this hostname gets embedded in the auth.sh script which you need to download and deploy on each Linux server.  
+## What is the purpose of a hostname as a parameter?
+Keyper uses this hostname to generate a self-signed certificate. OpenLDAP and Nginx use this certificate for secure communication. Also, this hostname gets embedded in the auth.sh script, which you need to download and deploy on each Linux server.  
 ## I want to connect to Keyper on a different terminal to see its inside?
 Great. First find the container id of the running container, and then use ```docker exec``` to connect. Something like this:
 ```console
@@ -178,12 +178,12 @@ Running a container with ```FLASK_CONFIG=dev``` would force Flask REST API to ru
 ## Where is the auditlog for OpenLDAP located
 ```/var/log/openldap/auditlog.ldif```. It may be a better idea to create docker volume for ```/var/log``` and mount it in the container to persist logs
 ## How can I backup Keyper?
-As far as you have a backup for the OpenLDAP database you are good to go. For the rest, as far as you specify the same cli params things should work fine.  
+As far as you have a backup for the OpenLDAP database, you are good to go. For the rest, as far as you specify the same CLI params, things should work fine.  
 ## How do I use a real X.509 SSL certificate with Keyper?
-The certificate is used by OpenLDAP and Nginx. You can set custom certificate at run time by mounting a directory containing those files to ```/container/service/nginx/assets/certs``` and adjust their name per the environment variables defined above.
+OpenLDAP and Nginx require the X.509 certificate. You can set custom certificate at run time by mounting a directory containing those files to ```/container/service/nginx/assets/certs``` and adjust their name per the environment variables defined above.
 ## What is SSH Key Revocation List (KRL)?
-A Key Revocation List (KRL) is a list identifying the revokes Keys and Certificates. In Keyper, a Key or Certificate when deleted gets added to the KRL. Both Key based and Certificate based SSH authentication on Keyper use KRL verification as the first step.
+A Key Revocation List (KRL) is a list identifying the revoked Keys and Certificates. In Keyper, a Key or Certificate once deleted, gets added to the KRL. Both Key-based and Certificate-based SSH authentication on Keyper uses KRL verification as the first step during authentication and prevents the use of revoked Keys/Certificates.
 ## How can I access the KRL File?
-KRL file is located on the runing container under ```/etc/sshca/ca_krl```. It can also be downloaded using API call ```https://servername/api/krlca```
+The KRL file is located on the running container under ```/etc/sshca/ca_krl```. It can also be downloaded using API call ```https://servername/api/krlca```
 
 
