@@ -43,25 +43,25 @@ Theoretically, a man-in-the-middle attack could be launched at this point as the
 
 Fortunately, the newer version of SSH includes many improvements that give us the ability to centralize and better manage authorized_keys using ```AuthorizedKeysCommand```. However, the issue with the TOFU remains. Although the solutions exist in either the use of SSHFP or SSH Certificates, their usage never caught on.
 
-Having said that, in addition to taking care of TOFU, SSH Certificates have many more advantages/features (for e.g. certificate expiration, use of principals, etc) that enhance SSH authentication governance and should be used by all organizations that use SSH.
+Having said that, in addition to taking care of TOFU, SSH Certificates have many more advantages/features (e.g. certificate expiration, use of principals, etc) that enhance SSH authentication governance and should be used by all organizations that use SSH.
 
-Instead of using complex X.509 style certificates, SSH chose to use their own simpler format of certificates, which can be easily managed using CLI ```ssh-keygen```. In order to use SSH certificate-based authentication one needs to set up SSH Certificate Authority (CA). So, how does one set up SSH CA?
+Instead of using complex X.509 style certificates, SSH chose to use their own simpler format of certificates, which can be easily managed using CLI ```ssh-keygen```. To use SSH certificate-based authentication one needs to set up SSH Certificate Authority (CA). So, how does one set up SSH CA?
 
 ## SSH Certificate Authority
 SSH Certificate authority (CA) can be set up on any computer with ```ssh-keygen```. SSH CA is a key pair used to sign SSH Public Keys to generate certificates. The recommendation is to set up two pairs of CA keys: one for host certificates and others for user's certificates.
 
-Use ```ssh-keygen``` to genearet CA Keys:
+Use ```ssh-keygen``` to generate CA Keys:
 
 ```console
 $ ssh-keygen -t rsa -f ca_host_key
 $ ssh-keygen -t rsa -f ca_user_key
 ```
 
-The above would generate two pairs of SSH Keys. for e.g. 
+The above would generate two pairs of SSH Keys. e.g. 
 
 ```console
 $ ssh-keygen -t rsa -f ca_host_key
-Generating public/private rsa key pair.
+Generating public/private RSA key pair.
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again: 
 Your identification has been saved in ca_host_key.
@@ -107,13 +107,13 @@ total 32
 -rw-------  1 alice  staff  1823 Oct 30 13:19 ca_user_key
 -rw-r--r--  1 alice  staff   398 Oct 30 13:19 ca_user_key.pub
 ```
-Optional: In addition you can also setup SSH Key Revocation List (KRL). This is a list of all revoked certificates.  
+Optional: Besides, you can also setup SSH Key Revocation List (KRL). This is a list of all revoked certificates.  
 
 ```console
 $ ssh-keygen -k -f ca_krl
 ```
 
-And, thats it. your SSH CA is in business. Now, going forward, you just need to configure your servers and clients to use certificates with private keys.
+And, that's it. your SSH CA is in business. Now, going forward, you just need to configure your servers and clients to use certificates with private keys.
 
 ## SSH Server Configuration
 Follow these steps to configure a host to use SSH certificates:
@@ -194,4 +194,4 @@ In this article, I have demonstrated the setup of SSH Certificate Authority and 
 Although the use of certificates results in more secure SSH authentication, SSH CA adds the burden of ssh certificate management. One can use a centralized system such as  [Keyper](https://keyper.dbsentry.com) to ease that burden. Keyper is an Open Source SSH Key and Certificate-Based Authentication Manager, which also acts as an SSH Certificate Authority (CA). It standardizes and centralizes the storage of SSH public keys and SSH Certificates for all Linux users in your organization. It also saves significant time and effort it takes to manage SSH keys and certificates on each Linux Server. Keyper also maintains an active Key Revocation List, which prevents the use of Key/Cert once revoked. Keyper is a lightweight container taking less than 100MB. It supports both Docker and Podman. You can be up and running within minutes instead of days.  
 ```</Shameless-Plug>```  
 
-Thats it folks! Happy more secure SSH'ing.
+That's it, folks! Happy more secure SSH'ing.

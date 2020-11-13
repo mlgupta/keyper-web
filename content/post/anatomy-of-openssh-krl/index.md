@@ -83,7 +83,7 @@ Although ```ssh-keygen``` can revoke keys or certificates using their fingerprin
 ```man ssh-keygen``` defines OpenSSH format Key Revocation Lists (KRLs) as "binary files specify keys or certificates to be revoked using a compact format, taking as little as one bit per certificate if they are being revoked by serial number." 
 
 ## KRL Anatomy
-To understand its internal structure I started with the OpenSSH source code. File ```krl.c``` has the following relvant definition:
+To understand its internal structure I started with the OpenSSH source code. File ```krl.c``` has the following relevant definition:
 
 ```c
 /*
@@ -139,7 +139,7 @@ struct ssh_krl {
         struct revoked_certs_list revoked_certs;
 };
 ```
-I started with ```struct ssh_krl``` and after spending a couple of hours trying to read and understand the OpenSSH code, my eyes were glazing. So, I went back back to the internet search to see if anyone has already figured this out. I found this [page](https://github.com/openssh/openssh-portable/blob/master/PROTOCOL.krl).
+I started with ```struct ssh_krl``` and after spending a couple of hours trying to read and understand the OpenSSH code, my eyes were glazing. So, I went back to the internet search to see if anyone has already figured this out. I found this [page](https://github.com/openssh/openssh-portable/blob/master/PROTOCOL.krl).
 
 ## KRL File Format
 ```c
@@ -149,16 +149,16 @@ This describes the key/certificate revocation list format for OpenSSH.
 
 The KRL consists of a header and zero or more sections. The header is:
 
-#define KRL_MAGIC		0x5353484b524c0a00ULL  /* "SSHKRL\n\0" */
-#define KRL_FORMAT_VERSION	1
+#define KRL_MAGIC   0x5353484b524c0a00ULL  /* "SSHKRL\n\0" */
+#define KRL_FORMAT_VERSION  1
 
-	uint64	KRL_MAGIC
-	uint32	KRL_FORMAT_VERSION
-	uint64	krl_version
-	uint64	generated_date
-	uint64	flags
-	string	reserved
-	string	comment
+  uint64  KRL_MAGIC
+  uint32  KRL_FORMAT_VERSION
+  uint64  krl_version
+  uint64  generated_date
+  uint64  flags
+  string  reserved
+  string  comment
 
 Where "krl_version" is a version number that increases each time the KRL
 is modified, "generated_date" is the time in seconds since 1970-01-01
@@ -168,8 +168,8 @@ No "flags" are currently defined.
 
 Following the header are zero or more sections, each consisting of:
 
-	byte	section_type
-	string	section_data
+  byte  section_type
+  string  section_data
 
 Where "section_type" indicates the type of the "section_data". An exception
 to this is the KRL_SECTION_SIGNATURE section, that has a slightly different
@@ -177,11 +177,11 @@ format (see below).
 
 The available section types are:
 
-#define KRL_SECTION_CERTIFICATES		1
-#define KRL_SECTION_EXPLICIT_KEY		2
-#define KRL_SECTION_FINGERPRINT_SHA1		3
-#define KRL_SECTION_SIGNATURE			4
-#define KRL_SECTION_FINGERPRINT_SHA256		5
+#define KRL_SECTION_CERTIFICATES    1
+#define KRL_SECTION_EXPLICIT_KEY    2
+#define KRL_SECTION_FINGERPRINT_SHA1    3
+#define KRL_SECTION_SIGNATURE     4
+#define KRL_SECTION_FINGERPRINT_SHA256    5
 
 2. Certificate section
 
@@ -190,8 +190,8 @@ serial number or key ID. The consist of the CA key that issued the
 certificates to be revoked and a reserved field whose contents is currently
 ignored.
 
-	string ca_key
-	string reserved
+  string ca_key
+  string reserved
 
 Where "ca_key" is the standard SSH wire serialisation of the CA's
 public key. Alternately, "ca_key" may be an empty string to indicate
@@ -200,15 +200,15 @@ revoking key IDs).
 
 Followed by one or more sections:
 
-	byte	cert_section_type
-	string	cert_section_data
+  byte  cert_section_type
+  string  cert_section_data
 
 The certificate section types are:
 
-#define KRL_SECTION_CERT_SERIAL_LIST	0x20
-#define KRL_SECTION_CERT_SERIAL_RANGE	0x21
-#define KRL_SECTION_CERT_SERIAL_BITMAP	0x22
-#define KRL_SECTION_CERT_KEY_ID		0x23
+#define KRL_SECTION_CERT_SERIAL_LIST  0x20
+#define KRL_SECTION_CERT_SERIAL_RANGE 0x21
+#define KRL_SECTION_CERT_SERIAL_BITMAP  0x22
+#define KRL_SECTION_CERT_KEY_ID   0x23
 
 2.1 Certificate serial list section
 
@@ -216,8 +216,8 @@ This section is identified as KRL_SECTION_CERT_SERIAL_LIST. It revokes
 certificates by listing their serial numbers. The cert_section_data in this
 case contains:
 
-	uint64	revoked_cert_serial
-	uint64	...
+  uint64  revoked_cert_serial
+  uint64  ...
 
 This section may appear multiple times.
 
@@ -226,8 +226,8 @@ This section may appear multiple times.
 These sections use type KRL_SECTION_CERT_SERIAL_RANGE and hold
 a range of serial numbers of certificates:
 
-	uint64	serial_min
-	uint64	serial_max
+  uint64  serial_min
+  uint64  serial_max
 
 All certificates in the range serial_min <= serial <= serial_max are
 revoked.
@@ -239,8 +239,8 @@ This section may appear multiple times.
 Bitmap sections use type KRL_SECTION_CERT_SERIAL_BITMAP and revoke keys
 by listing their serial number in a bitmap.
 
-	uint64	serial_offset
-	mpint	revoked_keys_bitmap
+  uint64  serial_offset
+  mpint revoked_keys_bitmap
 
 A bit set at index N in the bitmap corresponds to revocation of a keys with
 serial number (serial_offset + N).
@@ -253,8 +253,8 @@ KRL_SECTION_CERT_KEY_ID sections revoke particular certificate "key
 ID" strings. This may be useful in revoking all certificates
 associated with a particular identity, e.g. a host or a user.
 
-	string	key_id[0]
-	...
+  string  key_id[0]
+  ...
 
 This section must contain at least one "key_id". This section may appear
 multiple times.
@@ -265,8 +265,8 @@ These sections, identified as KRL_SECTION_EXPLICIT_KEY, revoke keys
 (not certificates). They are less space efficient than serial numbers,
 but are able to revoke plain keys.
 
-	string	public_key_blob[0]
-	....
+  string  public_key_blob[0]
+  ....
 
 This section must contain at least one "public_key_blob". The blob
 must be a raw key (i.e. not a certificate).
@@ -279,8 +279,8 @@ These sections, identified as KRL_SECTION_FINGERPRINT_SHA1 and
 KRL_SECTION_FINGERPRINT_SHA256, revoke plain keys (i.e. not
 certificates) by listing their hashes:
 
-	string	public_key_hash[0]
-	....
+  string  public_key_hash[0]
+  ....
 
 This section must contain at least one "public_key_hash". The hash blob
 is obtained by taking the SHA1 or SHA256 hash of the public key blob.
@@ -781,4 +781,4 @@ In this post, I explained the internal structure for OpenSSH Key Revocation List
 Although the use of certificates results in more secure SSH authentication, SSH CA adds the burden of ssh certificate management. One can use a centralized system such as  [Keyper](https://keyper.dbsentry.com) to ease that burden. Keyper is an Open Source SSH Key and Certificate-Based Authentication Manager, which also acts as an SSH Certificate Authority (CA). It standardizes and centralizes the storage of SSH public keys and SSH Certificates for all Linux users in your organization. It also saves significant time and effort it takes to manage SSH keys and certificates on each Linux Server. Keyper also maintains an active Key Revocation List, which prevents the use of Key/Cert once revoked. Keyper is a lightweight container taking less than 100MB. It supports both Docker and Podman. You can be up and running within minutes instead of days.  
 ```</Shameless-Plug>```  
 
-Thats it folks! Happy more secure SSH'ing.
+That's it, folks! Happy more secure SSH'ing.
