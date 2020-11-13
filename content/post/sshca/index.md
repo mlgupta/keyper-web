@@ -37,18 +37,18 @@ The authenticity of host 'mavrix5.dbsentry.com (72.191.40.116)' can't be establi
 ECDSA key fingerprint is SHA256:PoK81UWgOBMn6owOoHXjGoBLWqcJ4E9JCiLQyiFF60s.
 Are you sure you want to continue connecting (yes/no)? 
 ```
-As the server is not trusted at this point, theoretically a man-in-the-middle attack could be launched. I tried to find damaging incidents of such attacks on the internet but could not find any. Nevertheless, the possibility exists and we'd be better off getting rid of this warning.  
+Theoretically, a man-in-the-middle attack could be launched at this point as the server is not trusted. I tried finding damaging incidents of such attacks on the internet but could not find any. Nevertheless, the possibility exists and we'd be better off getting rid of it.  
 
-2. When the number of servers increases, authorized_keys files proliferate and they are hard to manage. Moreover, once added they are active perpetually and have to be removed manually to block access to its corresponding private key. That is probably the reason why many security guys frown on the use of authorized_keys.
+2. When the number of servers increases, authorized_keys files proliferate making them hard to manage. Moreover, once added they are active perpetually and have to be removed manually to block access to its corresponding private key. That is probably the reason why many security guys frown on the use of authorized_keys.
 
-Fortunately, the newer version of SSH included many improvements that give us the ability to centralize and better manage authorized_keys using ```AuthorizedKeysCommand```. However, the TOFU remains. Although the solutions exist in either the use of SSHFP or SSH Certificates, their usage never caught on.
+Fortunately, the newer version of SSH includes many improvements that give us the ability to centralize and better manage authorized_keys using ```AuthorizedKeysCommand```. However, the issue with the TOFU remains. Although the solutions exist in either the use of SSHFP or SSH Certificates, their usage never caught on.
 
 Having said that, in addition to taking care of TOFU, SSH Certificates have many more advantages/features (for e.g. certificate expiration, use of principals, etc) that enhance SSH authentication governance and should be used by all organizations that use SSH.
 
 Instead of using complex X.509 style certificates, SSH chose to use their own simpler format of certificates, which can be easily managed using CLI ```ssh-keygen```. In order to use SSH certificate-based authentication one needs to set up SSH Certificate Authority (CA). So, how does one set up SSH CA?
 
 ## SSH Certificate Authority
-SSH Certificate authority can be setup on any computer with ```ssh-keygen```. It is a key pair that is used to sign SSH Public Keys to generate certificates. It is recommended to set up two pairs of CA keys: one for host certificates and others for user's certificates.
+SSH Certificate authority (CA) can be set up on any computer with ```ssh-keygen```. SSH CA is a key pair used to sign SSH Public Keys to generate certificates. The recommendation is to set up two pairs of CA keys: one for host certificates and others for user's certificates.
 
 Use ```ssh-keygen``` to genearet CA Keys:
 
@@ -116,7 +116,7 @@ $ ssh-keygen -k -f ca_krl
 And, thats it. your SSH CA is in business. Now, going forward, you just need to configure your servers and clients to use certificates with private keys.
 
 ## SSH Server Configuration
-Follow these steps to configure host to use SSH certificates:
+Follow these steps to configure a host to use SSH certificates:
 
 1. Copy your servers SSH Public Key, typically located under ```/etc/ssh/ssh_host_rsa_key.pub``` or ```/etc/ssh/ssh_host_dsa_key.pub``` and get it signed.
 
@@ -129,7 +129,7 @@ Follow these steps to configure host to use SSH certificates:
   $ ssh-keygen -vvv -h -s ca_host_key -z 100 -I mavrix2 -V +52w -n mavrix2,mavrix2.dbsentry.com ssh_host_ed25519_key.pub
   Signed host key ssh_host_ed25519_key-cert.pub: id "mavrix2" serial 100 for mavrix2,mavrix2.dbsentry.com valid from 2020-10-30T14:46:00 to 2021-10-29T14:47:02
   ```
-2. Copy the certifcate back to the host under ```/etc/ssh```
+2. Copy the certificate back to the host under ```/etc/ssh```
 3. Copy CA User Public Key(```ca_user_key.pub```) to the host under ```/etc/ssh```
 4. Add the following to ```sshd_conf``` file:
   ```
@@ -137,7 +137,7 @@ Follow these steps to configure host to use SSH certificates:
   HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub
   ```
 
-  ```TrustedUserCAKeys``` directs SSH to trust certificates signed by ```ca_user_key```. And, ```HostCertificate``` directs SSH to send the host certificate instead of public key to the client.
+  ```TrustedUserCAKeys``` directs SSH to trust certificates signed by ```ca_user_key```. And, ```HostCertificate``` directs SSH to send the host certificate instead of the public key to the client.
 5. Restart SSH
   ```console
   $ sudo systemctl restart sshd
@@ -178,20 +178,20 @@ Follow the following steps to configure client/user to use SSH certificates:
                 permit-pty
                 permit-user-rc
   ```
-2. Copy certifcate to the client under ```<userhome>/.ssh```
+2. Copy the certificate to the client under ```<userhome>/.ssh```
 3. Copy CA Host Public Key (```ca_host_key.pub```) to the client and put it either in known_hosts file under ```<userhome>/.ssh``` (local) or ```/etc/known_hosts``` (global) file in the following format:
   ```
   @cert-authority *.dbsentry.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDN4F3JKuAS1V0nQmBRNl5fS8dZS49FKUp5wwy8R0wDcNYdrq+M5/tdS6K/R07445VWpVKwExZGboaQ/YR5iQ392YHM55ThMjSP5CTywmiP033MX3zG5eO9Iec5fz/hHtwrDtxb4Xm3FfGhXjjKTozNf/uMcOjIM1STr/I6t2zfZ42bnCq4DFj1GWHSrOtnxjN0PPOfCLH+1AmKhEUFqf0NBD3CQoPamaRVf4ouAc9KxOLFge+gebJe9jmqkaVHYfZD2CPoLVGHXZCphSQ3gyEKpvgD8VnfU9/la6BNtcK9lSONZWLFcw523HdlnbGVz+t15zZAXLu/3H6yK5SPC/L 
   ```
 
-  Above instructs SSH client to trust host certificate signed by the CA.
-4. Test ssh. You should not receive TOFU warning and should not be asked for the password either. The generated certificate should work for the principals (i.e. users on server) for the validity period.
+  Above instructs SSH client to trust the host certificate signed by the CA.
+4. Test ssh. You should not receive a TOFU warning and should not be asked for the password either. The generated certificate should work for the principals (i.e. users on the server) for the validity period.
 
 ## Summation
-In this article, I have demonstrated setup of SSH Certifciate Authority and why and how SSH authentication use SSH certificates.  
+In this article, I have demonstrated the setup of SSH Certificate Authority and why and how SSH authentication uses SSH certificates.  
 
 ```<Shameless-Plug>```  
-Although the use of certificates results in more secure SSH authentication, SSH CA adds the burden of ssh certificate management. To ease that burden one can use a centralized system such as  [Keyper](https://keyper.dbsentry.com). Keyper is an Open Source SSH Key and Certificate-Based Authentication Manager. Keyper acts as an SSH Certificate Authority (CA) and it standardizes and centralizes the storage of SSH public keys and SSH Certificates for all Linux users in your organization saving significant time and effort it takes to manage SSH public keys and certificates on each Linux Server. Keyper also maintains an active Key Revocation List, which prevents the use of Key/Cert once revoked. Keyper is a lightweight container taking less than 100MB. It is launched either using Docker or Podman. You can be up and running within minutes instead of days.  
+Although the use of certificates results in more secure SSH authentication, SSH CA adds the burden of ssh certificate management. One can use a centralized system such as  [Keyper](https://keyper.dbsentry.com) to ease that burden. Keyper is an Open Source SSH Key and Certificate-Based Authentication Manager, which also acts as an SSH Certificate Authority (CA). It standardizes and centralizes the storage of SSH public keys and SSH Certificates for all Linux users in your organization. It also saves significant time and effort it takes to manage SSH keys and certificates on each Linux Server. Keyper also maintains an active Key Revocation List, which prevents the use of Key/Cert once revoked. Keyper is a lightweight container taking less than 100MB. It supports both Docker and Podman. You can be up and running within minutes instead of days.  
 ```</Shameless-Plug>```  
 
 Thats it folks! Happy more secure SSH'ing.
