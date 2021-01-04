@@ -61,13 +61,13 @@ There is one little inconvenience with certificates, and that is a user cannot s
 ## Is Keyper opensource?  
 ~~Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).~~  
 Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker), [keyper](https://github.com/dbsentry/keyper), and [keyper-fe](https://github.com/dbsentry/keyper-fe).  
-The following components of keyper are open-source:
-* keyper frontend
-* keyper REST API
+All of the following components of keyper are open-source:
+* keyper frontend (Vue)
+* keyper REST API (Python/Flask)
 * keyper docker image builder
 * All artifacts related to OpenLDAP schema  
 
-The above stack can be administered using ```curl``` CLI.  
+The above stack can also be administered using ```curl``` CLI.  
 
 ~~The web-based administration console for Keyper has not been open-sourced.~~ 
 
