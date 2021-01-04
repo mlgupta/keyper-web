@@ -72,6 +72,9 @@ The above stack can also be administered using ```curl``` CLI.
 ~~The web-based administration console for Keyper has not been open-sourced.~~ 
 
 ~~The above arrangement should satisfy the needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with a docker image up to 20 servers. After which they have the option to purchase a license.~~  
+
+Commercial Customers can purchase license to receive support.  
+
 ## Where can I get Keyper?  
 Keyper can be downloaded from the docker [registry](https://hub.docker.com/repository/docker/dbsentry/keyper) either using docker or podman.
 ## I have a question/suggestion/need to report a bug. How can I contact you?  
