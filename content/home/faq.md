@@ -60,17 +60,18 @@ SSH Key-based authentication does a great job. Certificate-based authentication 
 There is one little inconvenience with certificates, and that is a user cannot sign their keys themselves as they do not have access to CA's private key. A process must be put in place to sign the keys. Once the administrator sets up a user in the Keyper system, s/he can upload keys to be signed by the CA. Keyper system generates the certificate on the fly based on pre-defined rules (like duration of the certificate, and what servers/principals any given user has access to).
 ## Is Keyper opensource?  
 ~~Not yet. However, we are working to get it open-sourced under GPLv2 (pending permission from our corporate overlords).~~  
-Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker) and [keyper](https://github.com/dbsentry/keyper).  
+Yes! We Opensourced Keyper under GPLv3 license. The source repositories are located at [keyper-docker](https://github.com/dbsentry/keyper-docker), [keyper](https://github.com/dbsentry/keyper), and [keyper-fe](https://github.com/dbsentry/keyper-fe).  
 The following components of keyper are open-source:
+* keyper frontend
 * keyper REST API
 * keyper docker image builder
 * All artifacts related to OpenLDAP schema  
 
 The above stack can be administered using ```curl``` CLI.  
 
-The web-based administration console for Keyper has not been open-sourced. 
+~~The web-based administration console for Keyper has not been open-sourced. 
 
-The above arrangement should satisfy the needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with a docker image up to 20 servers. After which they have the option to purchase a license.  
+The above arrangement should satisfy the needs of most of our users as smaller commercial customers can continue to use the web based admin console bundled with a docker image up to 20 servers. After which they have the option to purchase a license.~~  
 ## Where can I get Keyper?  
 Keyper can be downloaded from the docker [registry](https://hub.docker.com/repository/docker/dbsentry/keyper) either using docker or podman.
 ## I have a question/suggestion/need to report a bug. How can I contact you?  
@@ -111,6 +112,8 @@ You are sharing these demo systems with others. Please be respectful of others. 
 {{% /alert %}}
 ## I have a question that is not answered.
 Send your question to support@dbsentry.com, and we'll try to address it. You can also hang out with us on [Discord](https://discord.gg/JKpgXrYvGX)
+## How can I help?
+Thanks in advance. We can use your help in frontend development (Vue), backend development (Python/Flask), or documentation maintenance. Please drop us a line at support@dbsentry.com and we'll hook you up.  
 # Technical  
 ## What is under the hood?  
 Keyper is a Docker container, which can also be run using podman. The stack includes:
