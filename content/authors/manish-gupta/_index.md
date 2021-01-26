@@ -78,35 +78,61 @@ Keyper is an SSH Key/Certificate Authentication Manager. It standardizes and cen
 SSHFP is SSHFP record tester. It lists SSHFP records, SSH Key Fingerprints for a server, and matching Key fingerprints between the published DNS SSHFP records and Fingerprints returned by the SSH server. SSHFP records are obtained by performing DNS lookup against the domain's authoritative name servers, so changes to SSHFP records should show up instantly. This tool extracts SSH Key Fingerprints using ssh-keyscan against the server and port. Result also includes a set of matching keys between published DNS SSHFP records and Key fingerprints returned by the SSH server. You should use DNSSEC when publishing SSHFP records. And, you should only perform this test against the server you own. You can see the demo [here](http://sshfp.herokuapp.com/#/dashboard).
 
 ### [Covid-19 Tracker](https://github.com/mlgupta/covid-19-tracker)
+A PowerBI project that tracks and visualzes USA outbreak data for 2019 Novel Coronavirus.
+
+### [ssh-docker](https://github.com/dbsentry/ssh-docker)
+An SSH server Docker image created to demo Keyper, Keys and Certificate based authentication system. 
 
 ### [Disaster Recovery Maturity Model](https://github.com/mlgupta/DRMM)
+DRMM is an Excel template that calculates a Score per your Disaster Recovery Readiness.
 
 ### [DBSCaptcha](https://github.com/mlgupta/dbscaptcha)
+A Captcha web service written in Java. The service is designed to scale horizontally and uses Oracle's Coherence to share the data.
 
 ### [DBSOAMJCaptchaPlugin](https://github.com/mlgupta/DBSOAMJCaptchaPlugIn)
+An Oracle Access Manager (OAM) plugin to add a Captcha on the login page. The plugin verifies captcha against DBSCaptcha server.
+
+### [OVDBase64Plugin](https://github.com/dbsentry/NASOVDBase64PlugIn)
+An Oracle Virtual Directory (OVD) plug that transforms a binary attribute to a base64 encoded attribute.
+
+### [monbon](https://github.com/dbsentry/monbon)
+A web service written in java that exposes RSA Authentication Manager 2FA for other applications.
 
 ### [Tykeknit](https://github.com/mlgupta/tykeknit)
+Tykeknit was a playdate social network for kids. It was launched in 2010-2011. The service was shutdown in 2013.
 
 ### [Diningo](https://github.com/mlgupta/diningo)
+Diningo was designed and developed as SaaS for the restaurant owners to publish their specials of the day. The service was was started in 2005 and was shutdown in 2008.
 
 ### [bulbul](https://github.com/mlgupta/bulbul)
+A web application written in java that facilitated T-Shirt design on the web.
 
 ### [Samhita](https://github.com/mlgupta/samhita)
+Samhita is an integrated Document Management Software offers an organization wide platform for capturing, managing, and receiving documents supporting transactions within business applications. It is a web application written in Java/Struts/Oracle.
 
 ### [Resume & Timesheet Mgmt. System](https://github.com/mlgupta/resumeNTimesheet)
+A web application that uses Samhita as backend to store and manage Resume and Timesheet for employees.
 
 ### [FileSync](https://github.com/mlgupta/resumeNTimesheet)
+A desktop application written in Java that synchronizes your desktop folders with Samhita.
 
 ### [Scan & Forwarding Unit](https://github.com/mlgupta/SFU)
+An appliance that scans and stores documents in Samhita.
 
 ### [Records Information Mgmt. System](https://github.com/mlgupta/dims)
+A web application to manage scanned records.
 
 ### [psdbascripts](https://github.com/mlgupta/psdbascripts)
+Shell and SQL Scripts to manage Peoplesoft Database
 
 ### [pssqr](https://github.com/mlgupta/pssqr)
+Peoplesoft SQRs with implementation of Depth First Preorder Traversal
 
 ### [Linux Bare Metal Restore](https://github.com/mlgupta/linuxbmr)
+Linux Backup and Restore (BMR) procedure using fsarchiver
 
 ### [Linux QA](https://github.com/mlgupta/linuxqa)
+A utility to audit fresh linux(RHEL/Oracle Linux) installation.
 
 ### [LDIF2CSV](https://github.com/mlgupta/ldif2csv)
+An Awk script to convert LDIF file to CSV.
